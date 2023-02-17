@@ -1,3 +1,5 @@
+import db from '../../db.js'
+
 export const createDepartment =  (req, res) => {
     try {
         let name = req.body.name

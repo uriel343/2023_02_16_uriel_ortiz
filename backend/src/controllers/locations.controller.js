@@ -1,3 +1,5 @@
+import db from '../../db.js'
+
 export const createLocation =  (req, res) => {
     try {
         const values = [
@@ -37,7 +39,15 @@ export const listLocations =  (req, res) => {
 
 export const listLocation =  (req, res) => {
     try {
-        
+        let id = req.params.id
+        const queryDB = "SELECT * FROM locations WHERE id = ?";
+        db.query(queryDB, [id], (err, data) => {
+          if (err) {
+            console.log(err);
+            return res.status(400).send({ msg: err })
+          }
+          return res.status(200).send({ msg: data })
+        });
     } catch (error) {
         return res.status(500).send({ msg : "Internal server error!", error })
     }

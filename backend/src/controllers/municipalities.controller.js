@@ -1,3 +1,5 @@
+import db from '../../db.js'
+
 export const createMunicipality =  (req, res) => {
     try {
         const values = [

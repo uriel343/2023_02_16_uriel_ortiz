@@ -1,3 +1,5 @@
+import db from '../../db.js'
+
 export const createProducts =  (req, res) => {
     try {
 
@@ -20,6 +22,14 @@ export const createProducts =  (req, res) => {
 };
 
 export const listProducts =  (req, res) => {
+    const queryDB = "SELECT * FROM locations";
+    db.query(queryDB, (err, data) => {
+      if (err) {
+        console.log(err);
+        return res.status(400).send({ msg: err })
+      }
+      return res.status(200).send({ msg: data })
+    });
     try {
         const queryDB = "SELECT * FROM products";
         db.query(queryDB, (err, data) => {
@@ -36,7 +46,15 @@ export const listProducts =  (req, res) => {
 
 export const listProduct =  (req, res) => {
     try {
-        
+        let id = req.params.id
+        const queryDB = "SELECT * FROM products WHERE id = ?";
+        db.query(queryDB, [id], (err, data) => {
+          if (err) {
+            console.log(err);
+            return res.status(400).send({ msg: err })
+          }
+          return res.status(200).send({ msg: data })
+        });
     } catch (error) {
         return res.status(500).send({ msg : "Internal server error!", error })
     }
