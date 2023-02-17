@@ -53,7 +53,18 @@ export const listCategory =  (req, res) => {
 
 export const updateCategory =  (req, res) => {
     try {
-        
+        const id = req.params.id;
+        const queryDB = "UPDATE categories SET `name`= ?, `enabled`= ? WHERE id = ?";
+      
+        const values = [
+          req.body.name,
+          req.body.enabled
+        ];
+      
+        db.query(queryDB, [...values,id], (err, data) => {
+          if (err) return res.status(400).send({msg: err});
+          return res.status(200).send({ msg: "Success!", data });
+        });
     } catch (error) {
         return res.status(500).send({ msg : "Internal server error!", error })
     }
@@ -61,7 +72,15 @@ export const updateCategory =  (req, res) => {
 
 export const deleteCategory =  (req, res) => {
     try {
-        
+        const id = req.params.id;
+        const queryDB = "UPDATE categories SET `enabled`= ? WHERE id = ?";
+      
+        const values = false
+      
+        db.query(queryDB, [values,id], (err, data) => {
+          if (err) return res.status(400).send({msg: err});
+          return res.status(200).send({ msg: "Success!", data });
+        }); 
     } catch (error) {
         return res.status(500).send({ msg : "Internal server error!", error })
     }

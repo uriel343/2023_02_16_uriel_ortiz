@@ -62,7 +62,20 @@ export const listProduct =  (req, res) => {
 
 export const updateProduct =  (req, res) => {
     try {
-        
+        const id = req.params.id;
+        const queryDB = "UPDATE products SET `title`= ?, `description` = ?, `category` = ?, `enabled`= ? WHERE id = ?";
+      
+        const values = [
+          req.body.title,
+          req.body.description, 
+          req.body.category,
+          req.body.enabled
+        ];
+      
+        db.query(queryDB, [...values,id], (err, data) => {
+          if (err) return res.status(400).send({msg: err});
+          return res.status(200).send({ msg: "Success!", data });
+        });  
     } catch (error) {
         return res.status(500).send({ msg : "Internal server error!", error })
     }
@@ -70,7 +83,15 @@ export const updateProduct =  (req, res) => {
 
 export const deleteProduct =  (req, res) => {
     try {
-        
+        const id = req.params.id;
+        const queryDB = "UPDATE products SET `enabled`= ? WHERE id = ?";
+      
+        const values = false
+      
+        db.query(queryDB, [values,id], (err, data) => {
+          if (err) return res.status(400).send({msg: err});
+          return res.status(200).send({ msg: "Success!", data });
+        });
     } catch (error) {
         return res.status(500).send({ msg : "Internal server error!", error })
     }

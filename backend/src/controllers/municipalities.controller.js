@@ -35,7 +35,18 @@ export const listMunicipalities =  (req, res) => {
 
 export const updateMunicipality =  (req, res) => {
     try {
-        
+        const id = req.params.id;
+        const queryDB = "UPDATE municipalities SET `name`= ?, `department`= ? WHERE id = ?";
+      
+        const values = [
+          req.body.name,
+          req.body.department
+        ];
+      
+        db.query(queryDB, [...values,id], (err, data) => {
+          if (err) return res.status(400).send({msg: err});
+          return res.status(200).send({ msg: "Success!", data });
+        }); 
     } catch (error) {
         return res.status(500).send({ msg : "Internal server error!", error })
     }

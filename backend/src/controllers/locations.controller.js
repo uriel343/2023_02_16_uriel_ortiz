@@ -55,7 +55,22 @@ export const listLocation =  (req, res) => {
 
 export const updateLocation =  (req, res) => {
     try {
-        
+        const id = req.params.id;
+        const queryDB = "UPDATE locations SET `name`= ?, `address`= ?, `department` = ?, `phone` = ?, `municipalities` = ?, `enabled` = ? WHERE id = ?";
+      
+        const values = [
+          req.body.name,
+          req.body.address,
+          req.body.department, 
+          req.body.phone, 
+          req.body.municipalities,
+          req.body.enabled
+        ];
+      
+        db.query(queryDB, [...values,id], (err, data) => {
+          if (err) return res.status(400).send({msg: err});
+          return res.status(200).send({ msg: "Success!", data });
+        });
     } catch (error) {
         return res.status(500).send({ msg : "Internal server error!", error })
     }
@@ -63,7 +78,15 @@ export const updateLocation =  (req, res) => {
 
 export const deleteLocation =  (req, res) => {
     try {
-        
+        const id = req.params.id;
+        const queryDB = "UPDATE locations SET `enabled`= ? WHERE id = ?";
+      
+        const values = false
+      
+        db.query(queryDB, [values,id], (err, data) => {
+          if (err) return res.status(400).send({msg: err});
+          return res.status(200).send({ msg: "Success!", data });
+        });
     } catch (error) {
         return res.status(500).send({ msg : "Internal server error!", error })
     }
