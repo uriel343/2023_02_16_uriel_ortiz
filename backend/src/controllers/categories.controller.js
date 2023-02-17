@@ -5,9 +5,12 @@ export const createCategory = (req, res) => {
         
         const queryDB = "INSERT INTO categories(`name`) VALUES (?)"
 
-        let name = req.body.name
+        const values = [
+            req.body.name,
+            req.body.enabled
+        ]
 
-        db.query(queryDB, [name], (err, categoryCreated) => {
+        db.query(queryDB, [values], (err, categoryCreated) => {
             if(err) return res.status(400).send({ msg: "Something was wrong please try again", err })
             return res.status(200).send({ msg: "Success!", categoryCreated })
         })
