@@ -18,7 +18,14 @@ export const createMunicipality =  (req, res) => {
 
 export const listMunicipalities =  (req, res) => {
     try {
-        
+        const queryDB = "SELECT * FROM municipalities";
+        db.query(queryDB, (err, data) => {
+          if (err) {
+            console.log(err);
+            return res.status(400).send({ msg: err })
+          }
+          return res.status(200).send({ msg: data })
+        });
     } catch (error) {
         return res.status(500).send({ msg : "Internal server error!", error })
     }
